@@ -152,7 +152,10 @@ class ModeratedObject(models.Model):
 
     @property
     def moderator(self):
-        model_class = self.content_object.__class__
+        if self.content_object:
+            model_class = self.content_object.__class__
+        else:
+            model_class = self.content_type.model_class()
 
         return moderation.get_moderator(model_class)
 
